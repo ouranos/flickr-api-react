@@ -16,7 +16,9 @@ class PhotoList extends React.Component {
   }
 
   getPhotos = () => {
-    fetchPhotos()
+    // Allow to search multiple tags separated by spaces
+    const tags = this.state.searchString.replace(' ', ',');
+    fetchPhotos(tags)
     .then((response) => {
       this.setState({photos: response})
     })
@@ -26,12 +28,25 @@ class PhotoList extends React.Component {
     })
   }
 
+  handleSearchInputChange = (event) => {
+    this.setState({
+      searchString: event.target.value
+    }, () => {
+      this.getPhotos();
+    });
+  }
+
   render() {
     return(
       <div>
         { this.state.photos ? (
           <div>
-            <GridList cellHeight={200} cols={3} spacing={1}>
+            <TextField style={{padding: 24}}
+              id="searchInput"
+              placeholder="Search pictures"
+              onChange={this.handleSearchInputChange}
+            />
+            <GridList cellHeight={200} cols={4} spacing={1}>
               { this.state.photos.map(photo => (
                 <GridListTile key={photo.link}>
                   <img src={photo.media.m} alt={photo.title} />
