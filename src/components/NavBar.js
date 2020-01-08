@@ -7,7 +7,7 @@ const NavBar = () => {
   return(
     <AppBar position="static">
       <Toolbar>
-        <Typography variant="title">
+        <Typography variant="h6">
           Flickr Feed
         </Typography>
       </Toolbar>
