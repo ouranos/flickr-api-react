@@ -4,15 +4,17 @@ import fetchJsonp from 'fetch-jsonp';
 const PUBLIC_FEED_URL =
   'https://api.flickr.com/services/feeds/photos_public.gne?format=json&tagmode=any';
 
-/**
- * Return latest photos from the public Flickr feed
- */
-export function fetchPhotos (tags = '') {
-  const endpoint =  !!tags
-    ? `${PUBLIC_FEED_URL}&tags=${tags}`
-    : `${PUBLIC_FEED_URL}`
 
-  return fetchJsonp(endpoint, {
+const FlickrFeed = {
+  /**
+  * Return latest photos from the public Flickr feed
+  */
+  publicPhotos: async (tags = '') => {
+    const endpoint =  !!tags
+      ? `${PUBLIC_FEED_URL}&tags=${tags}`
+      : `${PUBLIC_FEED_URL}`
+
+    return fetchJsonp(endpoint, {
       jsonpCallback: 'jsoncallback',
       timeout: 3000
     })
@@ -22,6 +24,7 @@ export function fetchPhotos (tags = '') {
       console.log("Error occurred while fetching Photos");
       console.log(error);
     });
+  }
 }
 
-export default { fetchPhotos }
+export default FlickrFeed;

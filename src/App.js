@@ -2,7 +2,7 @@ import React from 'react';
 import './App.css';
 import 'typeface-roboto';
 
-import { fetchPhotos } from './services/FlickrFeed'
+import FlickrFeed from './services/FlickrFeed';
 import NavBar from './components/NavBar';
 import PhotoList from './components/PhotoList';
 
@@ -20,7 +20,7 @@ class App extends React.Component {
   getPhotos = () => {
     // Allow to search multiple tags separated by spaces
     const tags = this.state.searchString.replace(' ', ',');
-    fetchPhotos(tags)
+    FlickrFeed.publicPhotos(tags)
     .then((response) => {
       this.setState({photos: response})
     })

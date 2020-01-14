@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { GridList } from '@material-ui/core';
-import PhotoTile from './PhotoTile';
+import PhotoTile from '../PhotoTile';
 
 const PhotoList = (props) => {
   return(

@@ -44,10 +44,6 @@ const useStyles = theme => ({
 });
 
 class NavBar extends React.Component {
-  constructor(props) {
-    super(props);
-  }
-
   debouncedSearch = debounce(
     (search) => this.props.onSearch(search)
   , 300);
