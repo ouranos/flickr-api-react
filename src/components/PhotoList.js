@@ -48,13 +48,7 @@ class PhotoList extends React.Component {
             />
             <GridList cellHeight={200} cols={4} spacing={1}>
               { this.state.photos.map(photo => (
-                <GridListTile key={photo.link}>
-                  <img src={photo.media.m} alt={photo.title} />
-                  <GridListTileBar
-                    title={photo.title}
-                    subtitle={<span>by: {photo.author}</span>}
-                  />
-                </GridListTile>
+                <PhotoTile photo={photo} key={photo.link}/>
               ))}
             </GridList>
           </div>
