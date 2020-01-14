@@ -77,4 +77,32 @@ class NavBar extends React.Component {
   }
 }
 
+// const NavBar = ({onSearch}) => {
+//   return (
+//     <AppBar position="static">
+//       <Toolbar>
+//         <Typography variant="h6">
+//           Flickr Feed
+//         </Typography>
+//         <div className={classes.search}>
+//           <div className={classes.searchIcon}>
+//             <SearchIcon />
+//           </div>
+//           <InputBase
+//             placeholder="Search pictures..."
+//             classes={{
+//               root: classes.inputRoot,
+//               input: classes.inputInput,
+//             }}
+//             inputProps={{ 'aria-label': 'search' }}
+//             onChange={(e) => this.debouncedSearch(e.target.value)}
+//           />
+//         </div>
+//       </Toolbar>
+//     </AppBar>
+//   );
+// }
+
+
 export default withStyles(useStyles)(NavBar);
+// export default NavBar;
