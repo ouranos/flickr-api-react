@@ -1,6 +1,5 @@
 import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import { Button, Dialog, DialogTitle, GridListTile, GridListTileBar, IconButton, DialogContent, Typography, DialogContentText, Chip, List, ListItem, ListItemIcon, ListItemText, DialogActions } from '@material-ui/core';
+import { Button, Dialog, DialogTitle, GridListTile, GridListTileBar, IconButton, DialogContent, Chip, List, ListItem, ListItemIcon, ListItemText, DialogActions } from '@material-ui/core';
 import InfoIcon from '@material-ui/icons/Info';
 import TodayIcon from '@material-ui/icons/Today';
 import PersonIcon from '@material-ui/icons/Person';
@@ -13,7 +12,6 @@ const useStyles = theme => ({
   },
   tagList: {
     display: 'flex',
-    // justifyContent: 'center',
     flexWrap: 'wrap',
     '& > *': {
       margin: theme.spacing(0.5),
@@ -42,25 +40,31 @@ class PhotoTile extends React.Component {
 
     return (
       <div className={classes.tagList}>
-        {(tags.split(' ') || []).map(tag => (
-          <Chip label={tag} />
-        ))}
+        { tags !== "" ? (
+          (tags.split(' ') || []).map(tag => (
+            <Chip label={tag} key={tag}/>
+          ))
+        ) : "No tags" }
       </div>
     )
   }
 
   render() {
-
-    // const classes = useStyles();
     const { classes } = this.props;
 
     let photo = this.props.photo;
+
+    // Handle blank title
+    let title;
+    if (photo.title.trim() !== "") {
+      title = photo.title
+    }
 
     return(
       <GridListTile style={{...this.props.style}}>
         <img src={photo.media.m} alt={photo.title || 'Unknown'} />
         <GridListTileBar
-          title={photo.title || 'Unknown'}
+          title={title || 'Unknown'}
           subtitle={<span>by: {photo.author}</span>}
           actionIcon={
             <IconButton
@@ -73,7 +77,7 @@ class PhotoTile extends React.Component {
           }
         />
         <Dialog onClose={() => this.handleClose()} open={this.state.open}>
-          <DialogTitle>{photo.title || 'Unknown'}</DialogTitle>
+          <DialogTitle>{title || 'Unknown'}</DialogTitle>
           <DialogContent>
             <List>
               <ListItem>
