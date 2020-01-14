@@ -30,9 +30,9 @@ class App extends React.Component {
     })
   }
 
-  handleSearchChange = (event) => {
+  handleSearch = (search) => {
     this.setState({
-      searchString: event.target.value
+      searchString: search
     }, () => {
       this.getPhotos();
     });
@@ -41,7 +41,7 @@ class App extends React.Component {
   render() {
     return (
       <div className="App">
-        <NavBar onSearchChange={(e) => this.handleSearchChange(e)}/>
+        <NavBar onSearch={(e) => this.handleSearch(e)}/>
         <PhotoList photos={this.state.photos}/>
       </div>
     );

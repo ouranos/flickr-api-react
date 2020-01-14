@@ -1,10 +1,11 @@
 import React from 'react';
 import AppBar from '@material-ui/core/AppBar';
 import { Toolbar, Typography, InputBase } from '@material-ui/core';
-import { makeStyles, fade } from '@material-ui/core/styles';
+import { withStyles, fade } from '@material-ui/core/styles';
 import SearchIcon from '@material-ui/icons/Search';
+import { debounce } from "lodash";
 
-const useStyles = makeStyles(theme => ({
+const useStyles = theme => ({
   search: {
     position: 'relative',
     borderRadius: theme.shape.borderRadius,
@@ -40,35 +41,44 @@ const useStyles = makeStyles(theme => ({
       width: 200,
     },
   },
-}));
+});
 
-// Use a function as only rendering code
-const NavBar = (props) => {
-  const classes = useStyles();
+class NavBar extends React.Component {
+  constructor(props) {
+    super(props);
+  }
 
-  return(
-    <AppBar position="static">
-      <Toolbar>
-        <Typography variant="h6">
-          Flickr Feed
-        </Typography>
-        <div className={classes.search}>
-          <div className={classes.searchIcon}>
-            <SearchIcon />
+  debouncedSearch = debounce(
+    (search) => this.props.onSearch(search)
+  , 300);
+
+  render() {
+    const { classes } = this.props;
+
+    return(
+      <AppBar position="static">
+        <Toolbar>
+          <Typography variant="h6">
+            Flickr Feed
+          </Typography>
+          <div className={classes.search}>
+            <div className={classes.searchIcon}>
+              <SearchIcon />
+            </div>
+            <InputBase
+              placeholder="Search pictures..."
+              classes={{
+                root: classes.inputRoot,
+                input: classes.inputInput,
+              }}
+              inputProps={{ 'aria-label': 'search' }}
+              onChange={(e) => this.debouncedSearch(e.target.value)}
+            />
           </div>
-          <InputBase
-            placeholder="Search pictures..."
-            classes={{
-              root: classes.inputRoot,
-              input: classes.inputInput,
-            }}
-            inputProps={{ 'aria-label': 'search' }}
-            onChange={props.onSearchChange}
-          />
-        </div>
-      </Toolbar>
-    </AppBar>
-  );
+        </Toolbar>
+      </AppBar>
+    );
+  }
 }
 
-export default NavBar;
+export default withStyles(useStyles)(NavBar);
