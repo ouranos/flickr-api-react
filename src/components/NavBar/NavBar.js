@@ -1,11 +1,11 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import AppBar from '@material-ui/core/AppBar';
 import { Toolbar, Typography, InputBase } from '@material-ui/core';
-import { withStyles, fade } from '@material-ui/core/styles';
+import { makeStyles, fade } from '@material-ui/core/styles';
 import SearchIcon from '@material-ui/icons/Search';
 import { debounce } from "lodash";
 
-const useStyles = theme => ({
+const useStyles = makeStyles(theme => ({
   search: {
     position: 'relative',
     borderRadius: theme.shape.borderRadius,
@@ -41,68 +41,43 @@ const useStyles = theme => ({
       width: 200,
     },
   },
-});
+}));
 
-class NavBar extends React.Component {
-  debouncedSearch = debounce(
-    (search) => this.props.onSearch(search)
-  , 300);
+const NavBar = ({onSearch}) => {
+  const classes = useStyles();
 
-  render() {
-    const { classes } = this.props;
+  const debounceCallback = useCallback(
+    debounce(value => onSearch(value), 300),
+    []
+  );
 
-    return(
-      <AppBar position="static">
-        <Toolbar>
-          <Typography variant="h6">
-            Flickr Feed
-          </Typography>
-          <div className={classes.search}>
-            <div className={classes.searchIcon}>
-              <SearchIcon />
-            </div>
-            <InputBase
-              placeholder="Search pictures..."
-              classes={{
-                root: classes.inputRoot,
-                input: classes.inputInput,
-              }}
-              inputProps={{ 'aria-label': 'search' }}
-              onChange={(e) => this.debouncedSearch(e.target.value)}
-            />
+  const onInputChangeHandler = ({ target: { value } }) => {
+    debounceCallback(value);
+  };
+
+  return(
+    <AppBar position="static">
+      <Toolbar>
+        <Typography variant="h6">
+          Flickr Feed
+        </Typography>
+        <div className={classes.search}>
+          <div className={classes.searchIcon}>
+            <SearchIcon />
           </div>
-        </Toolbar>
-      </AppBar>
-    );
-  }
+          <InputBase
+            placeholder="Search pictures..."
+            classes={{
+              root: classes.inputRoot,
+              input: classes.inputInput,
+            }}
+            inputProps={{ 'aria-label': 'search' }}
+            onChange={onInputChangeHandler}
+          />
+        </div>
+      </Toolbar>
+    </AppBar>
+  )
 }
 
-// const NavBar = ({onSearch}) => {
-//   return (
-//     <AppBar position="static">
-//       <Toolbar>
-//         <Typography variant="h6">
-//           Flickr Feed
-//         </Typography>
-//         <div className={classes.search}>
-//           <div className={classes.searchIcon}>
-//             <SearchIcon />
-//           </div>
-//           <InputBase
-//             placeholder="Search pictures..."
-//             classes={{
-//               root: classes.inputRoot,
-//               input: classes.inputInput,
-//             }}
-//             inputProps={{ 'aria-label': 'search' }}
-//             onChange={(e) => this.debouncedSearch(e.target.value)}
-//           />
-//         </div>
-//       </Toolbar>
-//     </AppBar>
-//   );
-// }
-
-
-export default withStyles(useStyles)(NavBar);
-// export default NavBar;
+export default NavBar;
