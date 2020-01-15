@@ -1,4 +1,15 @@
+# flickr-api-react
+
+[`flickr-api-react`](https://flickr-api-react.netlify.com/) is a simple React project to display the photos from the [Flickr public feed](https://www.flickr.com/services/feeds/docs/photos_public/) and allows searching them by tags.
+
+This is my first React app and was a way of learning React while building a concrete project.
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+
+> :warning: **Some of the photos might be NSFW**: No filtering is done on the feed.
+
+ ![Photo List](screenshots/photo_list.png)
+ ![Photo Details](screenshots/photo_details.png)
 
 ## Available Scripts
 
@@ -27,42 +38,19 @@ Your app is ready to be deployed!
 
 See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
 
-### `yarn eject`
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+## Development Process
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+### UI Design
 
-Instead, it will copy all the configuration files and the transitive dependencies (Webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+To keep development as simple as possible while still having a nice UI & UX, I've leveraged the popular [Material-UI framework](https://material-ui.com/).
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+The layout is composed of:
+* A `<NavBar>` component which is an [App Bar](https://material-ui.com/components/app-bar/) that contains the title and a search field.
+* A `<PhotoList>` which is a [Grid List](https://material-ui.com/components/grid-list/#grid-list) which display the photos tiles.
+* Each `<PhotoTile>` displays the thumbnail, title and author of the photo as well as an info button which displays additional info in a `Dialog` when clicked.
 
-## Learn More
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+### Flickr Public Feed
 
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
-
-### Analyzing the Bundle Size
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
-
-### Making a Progressive Web App
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
-
-### Advanced Configuration
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
-
-### Deployment
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
-
-### `yarn build` fails to minify
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+To avoid having dealing with CORS issues, the data is fetched using JSONP with the [`fetch-jsonp`](https://github.com/camsong/fetch-jsonp) library.
